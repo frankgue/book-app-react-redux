@@ -24,7 +24,7 @@ const GOOGLE_API_KEY = "AIzaSyCel7jZdzNe6y77vgNxLSw39W51zT6o9ls";
 
 export const fetchBooks = (title) => {
   return (dispatch) => {
-    dispatch(fetchBooksLoading);
+    dispatch(fetchBooksLoading());
     axios
       .get(
         `https://www.googleapis.com/books/v1/volumes?q=${title}&maxResults=20&key=${GOOGLE_API_KEY}`

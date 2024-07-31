@@ -1,15 +1,26 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchBooks } from "../redux/actions/actionFetchBooks";
+import { addBooks } from "./../redux/actions/actionAddBooks";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const SearchBooks = () => {
   const searchState = useSelector((state) => state.search);
   const dispatch = useDispatch();
 
   const [title, setTitle] = useState("");
+
   const handleClick = (e) => {
     e.preventDefault();
     dispatch(fetchBooks(title));
+  };
+  const handleSave = (title, author) => {
+    const bookToSave = { title, author };
+    dispatch(addBooks(bookToSave));
+    toast.info("Livre Enregistré.", {
+      position: toast.POSITION.BOTTOM_RIGHT,
+    });
   };
 
   const displayBooksResults = searchState.isLoading ? (
@@ -58,9 +69,15 @@ const SearchBooks = () => {
               >
                 Plus d'infos
               </a>
-              <button className="btn btn-outline-secondary ml-3">
+              <button
+                onClick={() =>
+                  handleSave(data.volumeInfo.title, data.volumeInfo.authors)
+                }
+                className="btn btn-outline-secondary ml-3"
+              >
                 Enregistrer
               </button>
+              <ToastContainer />
             </div>
           </div>
         </div>
